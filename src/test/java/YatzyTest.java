@@ -6,60 +6,60 @@ public class YatzyTest {
 
     @Test
     public void should_scores_sum_of_all_dices_when_placed_on_chance() {
-        assertEquals(15, Yatzy.chance(2, 3, 4, 5, 1));
-        assertEquals(16, Yatzy.chance(3, 3, 4, 5, 1));
+        assertEquals(15, Yatzy.of(2, 3, 4, 5, 1).chance());
+        assertEquals(16, Yatzy.of(3, 3, 4, 5, 1).chance());
     }
 
     @Test
     public void should_same_numbers_scores_fifty_when_placed_on_yatzy() {
-        assertEquals(50, Yatzy.yatzy(4, 4, 4, 4, 4));
-        assertEquals(50, Yatzy.yatzy(6, 6, 6, 6, 6));
+        assertEquals(50, Yatzy.of(4, 4, 4, 4, 4).yatzy());
+        assertEquals(50, Yatzy.of(6, 6, 6, 6, 6).yatzy());
     }
 
     @Test
     public void should_different_numbers_scores_zero_when_placed_on_yatzy() {
-        assertEquals(0, Yatzy.yatzy(6, 6, 6, 6, 3));
+        assertEquals(0, Yatzy.of(6, 6, 6, 6, 3).yatzy());
     }
 
     @Test
     public void should_scores_sum_of_ones_when_placed_on_ones() {
-        assertEquals(1, Yatzy.ones(1, 2, 3, 4, 5));
-        assertEquals(2, Yatzy.ones(1, 2, 1, 4, 5));
-        assertEquals(0, Yatzy.ones(6, 2, 2, 4, 5));
-        assertEquals(4, Yatzy.ones(1, 2, 1, 1, 1));
+        assertEquals(1, Yatzy.of(1, 2, 3, 4, 5).ones());
+        assertEquals(2, Yatzy.of(1, 2, 1, 4, 5).ones());
+        assertEquals(0, Yatzy.of(6, 2, 2, 4, 5).ones());
+        assertEquals(4, Yatzy.of(1, 2, 1, 1, 1).ones());
     }
 
     @Test
     public void should_scores_sum_of_twos_when_placed_on_twos() {
-        assertEquals(4, Yatzy.twos(1, 2, 3, 2, 6));
-        assertEquals(10, Yatzy.twos(2, 2, 2, 2, 2));
+        assertEquals(4, Yatzy.of(1, 2, 3, 2, 6).twos());
+        assertEquals(10, Yatzy.of(2, 2, 2, 2, 2).twos());
     }
 
     @Test
     public void should_scores_sum_of_threes_when_placed_on_threes() {
-        assertEquals(6, Yatzy.threes(1, 2, 3, 2, 3));
-        assertEquals(12, Yatzy.threes(2, 3, 3, 3, 3));
+        assertEquals(6, Yatzy.of(1, 2, 3, 2, 3).threes());
+        assertEquals(12, Yatzy.of(2, 3, 3, 3, 3).threes());
     }
 
     @Test
     public void should_scores_sum_of_fours_when_placed_on_fours() {
-        assertEquals(12, new Yatzy(4, 4, 4, 5, 5).fours());
-        assertEquals(8, new Yatzy(4, 4, 5, 5, 5).fours());
-        assertEquals(4, new Yatzy(4, 5, 5, 5, 5).fours());
+        assertEquals(12, Yatzy.of(4, 4, 4, 5, 5).fours());
+        assertEquals(8, Yatzy.of(4, 4, 5, 5, 5).fours());
+        assertEquals(4, Yatzy.of(4, 5, 5, 5, 5).fours());
     }
 
     @Test
     public void should_scores_sum_of_fives_when_placed_on_fives() {
-        assertEquals(10, new Yatzy(4, 4, 4, 5, 5).fives());
-        assertEquals(15, new Yatzy(4, 4, 5, 5, 5).fives());
-        assertEquals(20, new Yatzy(4, 5, 5, 5, 5).fives());
+        assertEquals(10, Yatzy.of(4, 4, 4, 5, 5).fives());
+        assertEquals(15, Yatzy.of(4, 4, 5, 5, 5).fives());
+        assertEquals(20, Yatzy.of(4, 5, 5, 5, 5).fives());
     }
 
     @Test
     public void should_scores_sum_of_sixes_when_placed_on_sixes() {
-        assertEquals(0, new Yatzy(4, 4, 4, 5, 5).sixes());
-        assertEquals(6, new Yatzy(4, 4, 6, 5, 5).sixes());
-        assertEquals(18, new Yatzy(6, 5, 6, 6, 5).sixes());
+        assertEquals(0, Yatzy.of(4, 4, 4, 5, 5).sixes());
+        assertEquals(6, Yatzy.of(4, 4, 6, 5, 5).sixes());
+        assertEquals(18, Yatzy.of(6, 5, 6, 6, 5).sixes());
     }
 
     @Test

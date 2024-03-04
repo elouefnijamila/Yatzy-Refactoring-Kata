@@ -7,88 +7,51 @@ public class Yatzy {
     public static final int ZERO_SCORE = 0;
     public static final int YATZY_SCORE = 50;
 
-    public static int chance(int... dices) {
+    private int[] dices;
+
+    public static Yatzy of(int... dices) {
+        return new Yatzy(dices);
+    }
+
+    private Yatzy(int... dices) {
+        this.dices = dices;
+    }
+
+    public int chance() {
         return Arrays.stream(dices).sum();
     }
 
-    public static int yatzy(int... dices) {
+    public int yatzy() {
         Map<Integer, Long> counts = Arrays.stream(dices).boxed().collect(Collectors.groupingBy(Integer::intValue, Collectors.counting()));
         return counts.values().stream().anyMatch(count -> count == NUMBER_OF_DICES) ? YATZY_SCORE : ZERO_SCORE;
     }
 
-    public static int ones(int d1, int d2, int d3, int d4, int d5) {
-        int sum = 0;
-        if (d1 == 1) sum++;
-        if (d2 == 1) sum++;
-        if (d3 == 1) sum++;
-        if (d4 == 1) sum++;
-        if (d5 == 1)
-            sum++;
-
-        return sum;
+    public int ones() {
+        return sumNumberInRoll(1, dices);
     }
 
-    public static int twos(int d1, int d2, int d3, int d4, int d5) {
-        int sum = 0;
-        if (d1 == 2) sum += 2;
-        if (d2 == 2) sum += 2;
-        if (d3 == 2) sum += 2;
-        if (d4 == 2) sum += 2;
-        if (d5 == 2) sum += 2;
-        return sum;
+    public int twos() {
+        return sumNumberInRoll(2, dices);
     }
 
-    public static int threes(int d1, int d2, int d3, int d4, int d5) {
-        int s;
-        s = 0;
-        if (d1 == 3) s += 3;
-        if (d2 == 3) s += 3;
-        if (d3 == 3) s += 3;
-        if (d4 == 3) s += 3;
-        if (d5 == 3) s += 3;
-        return s;
+    public int threes() {
+        return sumNumberInRoll(3, dices);
     }
 
-    protected int[] dice;
-    public Yatzy(int d1, int d2, int d3, int d4, int _5)
-    {
-        dice = new int[5];
-        dice[0] = d1;
-        dice[1] = d2;
-        dice[2] = d3;
-        dice[3] = d4;
-        dice[4] = _5;
+    public int fours() {
+        return sumNumberInRoll(4, dices);
     }
 
-    public int fours()
-    {
-        int sum;
-        sum = 0;
-        for (int at = 0; at != 5; at++) {
-            if (dice[at] == 4) {
-                sum += 4;
-            }
-        }
-        return sum;
+    public int fives() {
+        return sumNumberInRoll(5, dices);
     }
 
-    public int fives()
-    {
-        int s = 0;
-        int i;
-        for (i = 0; i < dice.length; i++)
-            if (dice[i] == 5)
-                s = s + 5;
-        return s;
+    public int sixes() {
+        return sumNumberInRoll(6, dices);
     }
 
-    public int sixes()
-    {
-        int sum = 0;
-        for (int at = 0; at < dice.length; at++)
-            if (dice[at] == 6)
-                sum = sum + 6;
-        return sum;
+    private int sumNumberInRoll(int number, int... roll) {
+        return Arrays.stream(roll).filter(dice -> dice == number).sum();
     }
 
     public static int score_pair(int d1, int d2, int d3, int d4, int d5)
