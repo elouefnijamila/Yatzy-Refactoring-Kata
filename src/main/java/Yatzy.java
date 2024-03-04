@@ -1,20 +1,19 @@
 import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Yatzy {
+    public static final int NUMBER_OF_DICES = 5;
+    public static final int ZERO_SCORE = 0;
+    public static final int YATZY_SCORE = 50;
 
     public static int chance(int... dices) {
         return Arrays.stream(dices).sum();
     }
 
-    public static int yatzy(int... dice)
-    {
-        int[] counts = new int[6];
-        for (int die : dice)
-            counts[die-1]++;
-        for (int i = 0; i != 6; i++)
-            if (counts[i] == 5)
-                return 50;
-        return 0;
+    public static int yatzy(int... dices) {
+        Map<Integer, Long> counts = Arrays.stream(dices).boxed().collect(Collectors.groupingBy(Integer::intValue, Collectors.counting()));
+        return counts.values().stream().anyMatch(count -> count == NUMBER_OF_DICES) ? YATZY_SCORE : ZERO_SCORE;
     }
 
     public static int ones(int d1, int d2, int d3, int d4, int d5) {
