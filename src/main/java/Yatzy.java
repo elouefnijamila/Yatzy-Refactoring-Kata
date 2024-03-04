@@ -53,10 +53,6 @@ public class Yatzy {
         return sumNumberInRoll(6, dices);
     }
 
-    private int sumNumberInRoll(int number, int... roll) {
-        return Arrays.stream(roll).filter(dice -> dice == number).sum();
-    }
-
     public int scorePair() {
         return counts().entrySet().stream()
             .filter(c -> c.getValue() >= 2)
@@ -67,34 +63,14 @@ public class Yatzy {
         return counts().entrySet().stream().filter(c -> c.getValue() >= 2).mapToInt(e -> e.getKey() * 2).sum();
     }
 
-    public static int four_of_a_kind(int _1, int _2, int d3, int d4, int d5)
+    public int threeOfAKind()
     {
-        int[] tallies;
-        tallies = new int[6];
-        tallies[_1-1]++;
-        tallies[_2-1]++;
-        tallies[d3-1]++;
-        tallies[d4-1]++;
-        tallies[d5-1]++;
-        for (int i = 0; i < 6; i++)
-            if (tallies[i] >= 4)
-                return (i+1) * 4;
-        return 0;
+        return counts().entrySet().stream().filter(c -> c.getValue() >= 3).mapToInt(c->c.getKey()*3).sum();
     }
 
-    public static int three_of_a_kind(int d1, int d2, int d3, int d4, int d5)
+    public int fourOfAKind()
     {
-        int[] t;
-        t = new int[6];
-        t[d1-1]++;
-        t[d2-1]++;
-        t[d3-1]++;
-        t[d4-1]++;
-        t[d5-1]++;
-        for (int i = 0; i < 6; i++)
-            if (t[i] >= 3)
-                return (i+1) * 3;
-        return 0;
+        return counts().entrySet().stream().filter(c -> c.getValue() >= 4).mapToInt(c->c.getKey()*4).sum();
     }
 
     public static int smallStraight(int d1, int d2, int d3, int d4, int d5)
@@ -168,6 +144,10 @@ public class Yatzy {
             return _2_at * 2 + _3_at * 3;
         else
             return 0;
+    }
+
+    private int sumNumberInRoll(int number, int... roll) {
+        return Arrays.stream(roll).filter(dice -> dice == number).sum();
     }
 
     private Map<Integer, Long> counts() {
