@@ -10,6 +10,9 @@ public class Yatzy {
     private int[] dices;
 
     public static Yatzy of(int... dices) {
+        if(dices.length != NUMBER_OF_DICES)
+            throw new IllegalArgumentException("Dices number is not correct.");
+
         return new Yatzy(dices);
     }
 
