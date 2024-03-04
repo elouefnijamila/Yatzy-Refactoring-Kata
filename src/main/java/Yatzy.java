@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -25,8 +26,7 @@ public class Yatzy {
     }
 
     public int yatzy() {
-        Map<Integer, Long> counts = Arrays.stream(dices).boxed().collect(Collectors.groupingBy(Integer::intValue, Collectors.counting()));
-        return counts.values().stream().anyMatch(count -> count == NUMBER_OF_DICES) ? YATZY_SCORE : ZERO_SCORE;
+        return counts().values().stream().anyMatch(count -> count == NUMBER_OF_DICES) ? YATZY_SCORE : ZERO_SCORE;
     }
 
     public int ones() {
@@ -57,19 +57,14 @@ public class Yatzy {
         return Arrays.stream(roll).filter(dice -> dice == number).sum();
     }
 
-    public static int score_pair(int d1, int d2, int d3, int d4, int d5)
-    {
-        int[] counts = new int[6];
-        counts[d1-1]++;
-        counts[d2-1]++;
-        counts[d3-1]++;
-        counts[d4-1]++;
-        counts[d5-1]++;
-        int at;
-        for (at = 0; at != 6; at++)
-            if (counts[6-at-1] >= 2)
-                return (6-at)*2;
-        return 0;
+    public int scorePair() {
+        return counts().entrySet().stream()
+            .filter(c -> c.getValue() >= 2)
+            .max(Comparator.comparingInt(Map.Entry::getKey)).map(value -> value.getKey() * 2).orElseGet(() -> 0);
+    }
+
+    private Map<Integer, Long> counts() {
+        return Arrays.stream(dices).boxed().collect(Collectors.groupingBy(Integer::intValue, Collectors.counting()));
     }
 
     public static int two_pair(int d1, int d2, int d3, int d4, int d5)
