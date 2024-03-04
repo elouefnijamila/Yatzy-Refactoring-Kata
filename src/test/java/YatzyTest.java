@@ -71,8 +71,8 @@ public class YatzyTest {
 
     @Test
     public void should_scores_sum_of_the_two_pairs_of_dices_when_placed_on_two_pair() {
-        assertEquals(16, Yatzy.two_pair(3, 3, 5, 4, 5));
-        assertEquals(16, Yatzy.two_pair(3, 3, 5, 5, 5));
+        assertEquals(16, Yatzy.of(3, 3, 5, 4, 5).twoPairs());
+        assertEquals(16, Yatzy.of(3, 3, 5, 5, 5).twoPairs());
     }
 
     @Test
