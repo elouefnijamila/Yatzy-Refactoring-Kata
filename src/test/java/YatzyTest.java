@@ -6,112 +6,116 @@ public class YatzyTest {
 
     @Test
     public void should_scores_sum_of_all_dices_when_placed_on_chance() {
-        assertEquals(15, Yatzy.of(2, 3, 4, 5, 1).chance());
-        assertEquals(16, Yatzy.of(3, 3, 4, 5, 1).chance());
+        assertScore(15, Category.CHANCE, 2, 3, 4, 5, 1);
+        assertScore(16, Category.CHANCE, 3, 3, 4, 5, 1);
     }
 
     @Test
     public void should_same_numbers_scores_fifty_when_placed_on_yatzy() {
-        assertEquals(50, Yatzy.of(4, 4, 4, 4, 4).yatzy());
-        assertEquals(50, Yatzy.of(6, 6, 6, 6, 6).yatzy());
+        assertScore(Yatzy.YATZY_SCORE, Category.YATZY, 4, 4, 4, 4, 4);
+        assertScore(Yatzy.YATZY_SCORE, Category.YATZY, 6, 6, 6, 6, 6);
     }
 
     @Test
     public void should_different_numbers_scores_zero_when_placed_on_yatzy() {
-        assertEquals(0, Yatzy.of(6, 6, 6, 6, 3).yatzy());
+        assertScore(Yatzy.ZERO_SCORE, Category.YATZY, 6, 6, 6, 6, 3);
     }
 
     @Test
     public void should_scores_sum_of_ones_when_placed_on_ones() {
-        assertEquals(1, Yatzy.of(1, 2, 3, 4, 5).ones());
-        assertEquals(2, Yatzy.of(1, 2, 1, 4, 5).ones());
-        assertEquals(0, Yatzy.of(6, 2, 2, 4, 5).ones());
-        assertEquals(4, Yatzy.of(1, 2, 1, 1, 1).ones());
+        assertScore(1, Category.ONES, 1, 2, 3, 4, 5);
+        assertScore(2, Category.ONES, 1, 2, 1, 4, 5);
+        assertScore(Yatzy.ZERO_SCORE, Category.ONES, 6, 2, 2, 4, 5);
+        assertScore(4, Category.ONES, 1, 2, 1, 1, 1);
     }
 
     @Test
     public void should_scores_sum_of_twos_when_placed_on_twos() {
-        assertEquals(4, Yatzy.of(1, 2, 3, 2, 6).twos());
-        assertEquals(10, Yatzy.of(2, 2, 2, 2, 2).twos());
+        assertScore(4, Category.TWOS, 1, 2, 3, 2, 6);
+        assertScore(10, Category.TWOS, 2, 2, 2, 2, 2);
     }
 
     @Test
     public void should_scores_sum_of_threes_when_placed_on_threes() {
-        assertEquals(6, Yatzy.of(1, 2, 3, 2, 3).threes());
-        assertEquals(12, Yatzy.of(2, 3, 3, 3, 3).threes());
+        assertScore(6, Category.THREES, 1, 2, 3, 2, 3);
+        assertScore(12, Category.THREES, 2, 3, 3, 3, 3);
     }
 
     @Test
     public void should_scores_sum_of_fours_when_placed_on_fours() {
-        assertEquals(12, Yatzy.of(4, 4, 4, 5, 5).fours());
-        assertEquals(8, Yatzy.of(4, 4, 5, 5, 5).fours());
-        assertEquals(4, Yatzy.of(4, 5, 5, 5, 5).fours());
+        assertScore(12, Category.FOURS, 4, 4, 4, 5, 5);
+        assertScore(8, Category.FOURS, 4, 4, 5, 5, 5);
+        assertScore(4, Category.FOURS, 4, 5, 5, 5, 5);
     }
 
     @Test
     public void should_scores_sum_of_fives_when_placed_on_fives() {
-        assertEquals(10, Yatzy.of(4, 4, 4, 5, 5).fives());
-        assertEquals(15, Yatzy.of(4, 4, 5, 5, 5).fives());
-        assertEquals(20, Yatzy.of(4, 5, 5, 5, 5).fives());
+        assertScore(10, Category.FIVES, 4, 4, 4, 5, 5);
+        assertScore(15, Category.FIVES, 4, 4, 5, 5, 5);
+        assertScore(20, Category.FIVES, 4, 5, 5, 5, 5);
     }
 
     @Test
     public void should_scores_sum_of_sixes_when_placed_on_sixes() {
-        assertEquals(0, Yatzy.of(4, 4, 4, 5, 5).sixes());
-        assertEquals(6, Yatzy.of(4, 4, 6, 5, 5).sixes());
-        assertEquals(18, Yatzy.of(6, 5, 6, 6, 5).sixes());
+        assertScore(Yatzy.ZERO_SCORE, Category.SIXES, 4, 4, 4, 5, 5);
+        assertScore(6, Category.SIXES, 4, 4, 6, 5, 5);
+        assertScore(18, Category.SIXES, 6, 5, 6, 6, 5);
     }
 
     @Test
     public void should_scores_sum_of_the_two_highest_matching_dice_when_placed_on_pair() {
-        assertEquals(6, Yatzy.of(3, 4, 3, 5, 6).scorePair());
-        assertEquals(10, Yatzy.of(5, 3, 3, 3, 5).scorePair());
-        assertEquals(12, Yatzy.of(5, 3, 6, 6, 5).scorePair());
+        assertScore(6, Category.PAIR, 3, 4, 3, 5, 6);
+        assertScore(10, Category.PAIR, 5, 3, 3, 3, 5);
+        assertScore(12, Category.PAIR, 5, 3, 6, 6, 5);
     }
 
     @Test
     public void should_scores_sum_of_the_two_pairs_of_dices_when_placed_on_two_pair() {
-        assertEquals(16, Yatzy.of(3, 3, 5, 4, 5).twoPairs());
-        assertEquals(16, Yatzy.of(3, 3, 5, 5, 5).twoPairs());
+        assertScore(16, Category.TWO_PAIRS, 3, 3, 5, 4, 5);
+        assertScore(16, Category.TWO_PAIRS, 3, 3, 5, 5, 5);
     }
 
     @Test
     public void should_scores_sum_of_three_dices_with_same_number_when_placed_on_three_of_a_kind() {
-        assertEquals(9, Yatzy.of(3, 3, 3, 4, 5).threeOfAKind());
-        assertEquals(15, Yatzy.of(5, 3, 5, 4, 5).threeOfAKind());
-        assertEquals(9, Yatzy.of(3, 3, 3, 3, 5).threeOfAKind());
+        assertScore(9, Category.THREE_OF_A_KIND, 3, 3, 3, 4, 5);
+        assertScore(15, Category.THREE_OF_A_KIND, 5, 3, 5, 4, 5);
+        assertScore(9, Category.THREE_OF_A_KIND, 3, 3, 3, 3, 5);
     }
 
     @Test
     public void should_scores_sum_of_four_dices_with_same_number_when_placed_on_four_of_a_kind() {
-        assertEquals(12, Yatzy.of(3, 3, 3, 3, 5).fourOfAKind());
-        assertEquals(20, Yatzy.of(5, 5, 5, 4, 5).fourOfAKind());
-        assertEquals(12, Yatzy.of(3, 3, 3, 3, 3).fourOfAKind());
+        assertScore(12, Category.FOUR_OF_A_KIND, 3, 3, 3, 3, 5);
+        assertScore(20, Category.FOUR_OF_A_KIND, 5, 5, 5, 4, 5);
+        assertScore(12, Category.FOUR_OF_A_KIND, 3, 3, 3, 3, 3);
     }
 
     @Test
     public void should_small_straight_roll_scores_sum_of_all_dices_when_placed_on_small_straight() {
-        assertEquals(15, Yatzy.of(1, 2, 3, 4, 5).smallStraight());
-        assertEquals(15, Yatzy.of(2, 3, 4, 5, 1).smallStraight());
-        assertEquals(0, Yatzy.of(1, 2, 2, 4, 5).smallStraight());
+        assertScore(15, Category.SMALL_STRAIGHT, 1, 2, 3, 4, 5);
+        assertScore(15, Category.SMALL_STRAIGHT, 2, 3, 4, 5, 1);
+        assertScore(Yatzy.ZERO_SCORE, Category.SMALL_STRAIGHT, 1, 2, 2, 4, 5);
     }
 
     @Test
     public void should_large_straight_roll_scores_sum_of_all_dices_when_placed_on_large_straight() {
-        assertEquals(20, Yatzy.of(6, 2, 3, 4, 5).largeStraight());
-        assertEquals(20, Yatzy.of(2, 3, 4, 5, 6).largeStraight());
-        assertEquals(0, Yatzy.of(1, 2, 2, 4, 5).largeStraight());
+        assertScore(20, Category.LARGE_STRAIGHT, 6, 2, 3, 4, 5);
+        assertScore(20, Category.LARGE_STRAIGHT, 2, 3, 4, 5, 6);
+        assertScore(Yatzy.ZERO_SCORE, Category.LARGE_STRAIGHT, 1, 2, 2, 4, 5);
     }
 
     @Test
     public void should_full_house_roll_scores_sum_of_all_dices_when_placed_on_full_house() {
-        assertEquals(18, Yatzy.of(6, 2, 2, 2, 6).fullHouse());
-        assertEquals(0, Yatzy.of(2, 3, 4, 5, 6).fullHouse());
+        assertScore(18, Category.FULL_HOUSE, 6, 2, 2, 2, 6);
+        assertScore(Yatzy.ZERO_SCORE, Category.FULL_HOUSE, 2, 3, 4, 5, 6);
     }
 
     @Test
     public void should_throw_exception_when_numbers_of_dices_is_not_correct() {
         assertThrows(IllegalArgumentException.class, () -> Yatzy.of(2, 3, 4, 5));
         assertThrows(IllegalArgumentException.class, () -> Yatzy.of(1, 2, 3, 4, 5, 6));
+    }
+
+    private void assertScore(int expectedScore, Category actualCategory, int... actualRoll) {
+        assertEquals(expectedScore, Yatzy.of(actualRoll).score(actualCategory));
     }
 }

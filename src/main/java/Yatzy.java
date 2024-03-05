@@ -14,64 +14,7 @@ public class Yatzy {
         this.roll = new Roll(dices);
     }
 
-    public int chance() {
-        return roll.sum();
+    public int score(Category category){
+        return category.score(roll);
     }
-
-    public int yatzy() {
-        return roll.isYatzy() ? YATZY_SCORE : ZERO_SCORE;
-    }
-
-    public int ones() {
-        return roll.sumOccurencesOf(1);
-    }
-
-    public int twos() {
-        return roll.sumOccurencesOf(2);
-    }
-
-    public int threes() {
-        return roll.sumOccurencesOf(3);
-    }
-
-    public int fours() {
-        return roll.sumOccurencesOf(4);
-    }
-
-    public int fives() {
-        return roll.sumOccurencesOf(5);
-    }
-
-    public int sixes() {
-        return roll.sumOccurencesOf(6);
-    }
-
-    public int scorePair() {
-        return roll.highestPair().map(value -> value.getKey() * 2).orElseGet(() -> ZERO_SCORE);
-    }
-
-    public int twoPairs() {
-        return roll.sumDicesIfCounts(2);
-    }
-
-    public int threeOfAKind() {
-        return roll.sumDicesIfCounts(3);
-    }
-
-    public int fourOfAKind() {
-        return roll.sumDicesIfCounts(4);
-    }
-
-    public int smallStraight() {
-        return Roll.SMALL_STRAIGHT_ROLL.stream().filter(element -> !roll.contains(element)).count() == 0 ? roll.sum() : ZERO_SCORE;
-    }
-
-    public int largeStraight() {
-        return Roll.LARGE_STRAIGHT_ROLL.stream().filter(element -> !roll.contains(element)).count() == 0 ? roll.sum() : ZERO_SCORE;
-    }
-
-    public int fullHouse() {
-        return roll.isFullHouse() ? roll.sum() : 0;
-    }
-
 }
