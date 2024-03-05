@@ -1,108 +1,77 @@
-import java.util.*;
-import java.util.stream.*;
-
 public class Yatzy {
-    public static final int NUMBER_OF_DICES = 5;
     public static final int ZERO_SCORE = 0;
     public static final int YATZY_SCORE = 50;
 
-    private int[] dices;
+    private Roll roll;
 
     public static Yatzy of(int... dices) {
-        if (dices.length != NUMBER_OF_DICES)
+        if (dices.length != Roll.NUMBER_OF_DICES)
             throw new IllegalArgumentException("Dices number is not correct.");
-
         return new Yatzy(dices);
     }
 
     private Yatzy(int... dices) {
-        this.dices = dices;
+        this.roll = new Roll(dices);
     }
 
     public int chance() {
-        return sum();
+        return roll.sum();
     }
 
     public int yatzy() {
-        return counts().values().stream().anyMatch(count -> count == NUMBER_OF_DICES) ? YATZY_SCORE : ZERO_SCORE;
+        return roll.isYatzy() ? YATZY_SCORE : ZERO_SCORE;
     }
 
     public int ones() {
-        return sumNumberInRoll(1, dices);
+        return roll.sumOccurencesOf(1);
     }
 
     public int twos() {
-        return sumNumberInRoll(2, dices);
+        return roll.sumOccurencesOf(2);
     }
 
     public int threes() {
-        return sumNumberInRoll(3, dices);
+        return roll.sumOccurencesOf(3);
     }
 
     public int fours() {
-        return sumNumberInRoll(4, dices);
+        return roll.sumOccurencesOf(4);
     }
 
     public int fives() {
-        return sumNumberInRoll(5, dices);
+        return roll.sumOccurencesOf(5);
     }
 
     public int sixes() {
-        return sumNumberInRoll(6, dices);
+        return roll.sumOccurencesOf(6);
     }
 
     public int scorePair() {
-        return highestPair().map(value -> value.getKey() * 2).orElseGet(() -> ZERO_SCORE);
+        return roll.highestPair().map(value -> value.getKey() * 2).orElseGet(() -> ZERO_SCORE);
     }
 
     public int twoPairs() {
-        return sumNumberMatchingDices(2);
+        return roll.sumDicesIfCounts(2);
     }
 
     public int threeOfAKind() {
-        return sumNumberMatchingDices(3);
+        return roll.sumDicesIfCounts(3);
     }
 
     public int fourOfAKind() {
-        return sumNumberMatchingDices(4);
+        return roll.sumDicesIfCounts(4);
     }
 
     public int smallStraight() {
-        return Arrays.compare(dicesStream().sorted().toArray(), IntStream.rangeClosed(1, 5).toArray()) == 0 ? sum() : ZERO_SCORE;
+        return Roll.SMALL_STRAIGHT_ROLL.stream().filter(element -> !roll.contains(element)).count() == 0 ? roll.sum() : ZERO_SCORE;
     }
 
     public int largeStraight() {
-        return Arrays.compare(dicesStream().sorted().toArray(), IntStream.rangeClosed(2, 6).toArray()) == 0 ? sum() : ZERO_SCORE;
+        return Roll.LARGE_STRAIGHT_ROLL.stream().filter(element -> !roll.contains(element)).count() == 0 ? roll.sum() : ZERO_SCORE;
     }
 
     public int fullHouse() {
-        return dicesStream().distinct().count() == 2 ? dicesStream().sum() : 0;
-    }
-
-    private IntStream dicesStream() {
-        return Arrays.stream(dices);
-    }
-
-    private int sum() {
-        return dicesStream().sum();
-    }
-
-    private int sumNumberInRoll(int number, int... roll) {
-        return dicesStream().filter(dice -> dice == number).sum();
-    }
-
-    private Map<Integer, Long> counts() {
-        return dicesStream().boxed().collect(Collectors.groupingBy(Integer::intValue, Collectors.counting()));
-    }
-
-    private Optional<Map.Entry<Integer, Long>> highestPair() {
-        return counts().entrySet().stream()
-            .filter(c -> c.getValue() >= 2)
-            .max(Comparator.comparingInt(Map.Entry::getKey));
-    }
-
-    private int sumNumberMatchingDices(int number) {
-        return counts().entrySet().stream().filter(c -> c.getValue() >= number).mapToInt(c -> c.getKey() * number).sum();
+        return roll.isFullHouse() ? roll.sum() : 0;
     }
 
 }
