@@ -105,8 +105,8 @@ public class YatzyTest {
 
     @Test
     public void should_full_house_roll_scores_sum_of_all_dices_when_placed_on_full_house() {
-        assertEquals(18, Yatzy.fullHouse(6, 2, 2, 2, 6));
-        assertEquals(0, Yatzy.fullHouse(2, 3, 4, 5, 6));
+        assertEquals(18, Yatzy.of(6, 2, 2, 2, 6).fullHouse());
+        assertEquals(0, Yatzy.of(2, 3, 4, 5, 6).fullHouse());
     }
 
     @Test
