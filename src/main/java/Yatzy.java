@@ -1,7 +1,5 @@
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.*;
 
 public class Yatzy {
     public static final int NUMBER_OF_DICES = 5;
@@ -11,7 +9,7 @@ public class Yatzy {
     private int[] dices;
 
     public static Yatzy of(int... dices) {
-        if(dices.length != NUMBER_OF_DICES)
+        if (dices.length != NUMBER_OF_DICES)
             throw new IllegalArgumentException("Dices number is not correct.");
 
         return new Yatzy(dices);
@@ -22,7 +20,7 @@ public class Yatzy {
     }
 
     public int chance() {
-        return Arrays.stream(dices).sum();
+        return sum();
     }
 
     public int yatzy() {
@@ -54,59 +52,27 @@ public class Yatzy {
     }
 
     public int scorePair() {
-        return counts().entrySet().stream()
-            .filter(c -> c.getValue() >= 2)
-            .max(Comparator.comparingInt(Map.Entry::getKey)).map(value -> value.getKey() * 2).orElseGet(() -> 0);
+        return highestPair().map(value -> value.getKey() * 2).orElseGet(() -> ZERO_SCORE);
     }
 
     public int twoPairs() {
-        return counts().entrySet().stream().filter(c -> c.getValue() >= 2).mapToInt(e -> e.getKey() * 2).sum();
+        return sumNumberMatchingDices(2);
     }
 
-    public int threeOfAKind()
-    {
-        return counts().entrySet().stream().filter(c -> c.getValue() >= 3).mapToInt(c->c.getKey()*3).sum();
+    public int threeOfAKind() {
+        return sumNumberMatchingDices(3);
     }
 
-    public int fourOfAKind()
-    {
-        return counts().entrySet().stream().filter(c -> c.getValue() >= 4).mapToInt(c->c.getKey()*4).sum();
+    public int fourOfAKind() {
+        return sumNumberMatchingDices(4);
     }
 
-    public static int smallStraight(int d1, int d2, int d3, int d4, int d5)
-    {
-        int[] tallies;
-        tallies = new int[6];
-        tallies[d1-1] += 1;
-        tallies[d2-1] += 1;
-        tallies[d3-1] += 1;
-        tallies[d4-1] += 1;
-        tallies[d5-1] += 1;
-        if (tallies[0] == 1 &&
-            tallies[1] == 1 &&
-            tallies[2] == 1 &&
-            tallies[3] == 1 &&
-            tallies[4] == 1)
-            return 15;
-        return 0;
+    public int smallStraight() {
+        return Arrays.compare(dicesStream().sorted().toArray(), IntStream.rangeClosed(1, 5).toArray()) == 0 ? sum() : ZERO_SCORE;
     }
 
-    public static int largeStraight(int d1, int d2, int d3, int d4, int d5)
-    {
-        int[] tallies;
-        tallies = new int[6];
-        tallies[d1-1] += 1;
-        tallies[d2-1] += 1;
-        tallies[d3-1] += 1;
-        tallies[d4-1] += 1;
-        tallies[d5-1] += 1;
-        if (tallies[1] == 1 &&
-            tallies[2] == 1 &&
-            tallies[3] == 1 &&
-            tallies[4] == 1
-            && tallies[5] == 1)
-            return 20;
-        return 0;
+    public int largeStraight() {
+        return Arrays.compare(dicesStream().sorted().toArray(), IntStream.rangeClosed(2, 6).toArray()) == 0 ? sum() : ZERO_SCORE;
     }
 
     public static int fullHouse(int d1, int d2, int d3, int d4, int d5)
@@ -146,14 +112,30 @@ public class Yatzy {
             return 0;
     }
 
+    private IntStream dicesStream() {
+        return Arrays.stream(dices);
+    }
+
+    private int sum() {
+        return dicesStream().sum();
+    }
+
     private int sumNumberInRoll(int number, int... roll) {
-        return Arrays.stream(roll).filter(dice -> dice == number).sum();
+        return dicesStream().filter(dice -> dice == number).sum();
     }
 
     private Map<Integer, Long> counts() {
-        return Arrays.stream(dices).boxed().collect(Collectors.groupingBy(Integer::intValue, Collectors.counting()));
+        return dicesStream().boxed().collect(Collectors.groupingBy(Integer::intValue, Collectors.counting()));
     }
+
+    private Optional<Map.Entry<Integer, Long>> highestPair() {
+        return counts().entrySet().stream()
+            .filter(c -> c.getValue() >= 2)
+            .max(Comparator.comparingInt(Map.Entry::getKey));
+    }
+
+    private int sumNumberMatchingDices(int number) {
+        return counts().entrySet().stream().filter(c -> c.getValue() >= number).mapToInt(c -> c.getKey() * number).sum();
+    }
+
 }
-
-
-

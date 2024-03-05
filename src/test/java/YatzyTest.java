@@ -91,16 +91,16 @@ public class YatzyTest {
 
     @Test
     public void should_small_straight_roll_scores_sum_of_all_dices_when_placed_on_small_straight() {
-        assertEquals(15, Yatzy.smallStraight(1, 2, 3, 4, 5));
-        assertEquals(15, Yatzy.smallStraight(2, 3, 4, 5, 1));
-        assertEquals(0, Yatzy.smallStraight(1, 2, 2, 4, 5));
+        assertEquals(15, Yatzy.of(1, 2, 3, 4, 5).smallStraight());
+        assertEquals(15, Yatzy.of(2, 3, 4, 5, 1).smallStraight());
+        assertEquals(0, Yatzy.of(1, 2, 2, 4, 5).smallStraight());
     }
 
     @Test
     public void should_large_straight_roll_scores_sum_of_all_dices_when_placed_on_large_straight() {
-        assertEquals(20, Yatzy.largeStraight(6, 2, 3, 4, 5));
-        assertEquals(20, Yatzy.largeStraight(2, 3, 4, 5, 6));
-        assertEquals(0, Yatzy.largeStraight(1, 2, 2, 4, 5));
+        assertEquals(20, Yatzy.of(6, 2, 3, 4, 5).largeStraight());
+        assertEquals(20, Yatzy.of(2, 3, 4, 5, 6).largeStraight());
+        assertEquals(0, Yatzy.of(1, 2, 2, 4, 5).largeStraight());
     }
 
     @Test
